@@ -18,7 +18,21 @@ If the operation "type" == +, the final value should increment by the result of 
 If the operation "type" == -, the final value should increment by the result of a - b.
 */
 int calc(op* ops, int op_len) {
-    
+    int total = 0;
+    for (int i = 0; i < op_len; i++) {
+        switch (ops[i].type) {
+            case '?':
+                total += mystery(ops[i].a, ops[i].b);
+                break;
+            case '+':
+                total += ops[i].a + ops[i].b;
+                break;
+            case '-':
+                total += ops[i].a - ops[i].b;
+                break;
+        }
+    }
+    return total;
 }
 
 int main(void) {

@@ -1,0 +1,6 @@
+(1) The two syscalls I added appear as the second-to-last and third-to-last lines of the strace output:
+write(1, "hello STDOUT\n", 13) = 13
+write(2, "ERROR: this is an error", 23) = 23
+The first writes 13 bytes to file descriptor 1 (standard output), and the second writes 23 bytes to file descriptor 2 (standard error). Both return the number of bytes successfully written.
+
+(2) execve is another syscall in the output. It appears on the very first line as execve("./caller", ["./caller"], 0x7ffc5e3265b0) = 0. execve replaces the currently running process image with a new program. The shell forks a child process, and that child calls execve to load the ./caller executable into memory, set up its stack with the argument list and environment variables, and begin execution at the program's entry point. Because the process image is replaced rather than copied, a successful execve never returns to the code that called it.
